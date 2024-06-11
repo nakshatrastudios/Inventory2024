@@ -10,8 +10,10 @@ public class InventorySlotUI : MonoBehaviour
         slot = new InventorySlot
         {
             slotObject = gameObject,
-            stackText = GetComponentInChildren<Text>(),
+            stackText = transform.Find("DraggableItem/StackText").GetComponent<Text>(),
             itemIcon = transform.Find("DraggableItem/ItemIcon").GetComponent<Image>()
         };
     }
 }
+
+

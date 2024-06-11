@@ -39,7 +39,8 @@ public class InventoryDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
     {
         if (slot.item != null)
         {
-            canvasGroup.alpha = 1f; // Restore the item's opacity
+            // Reset the alpha value for the original slot
+            canvasGroup.alpha = 1f;
             canvasGroup.blocksRaycasts = true; // Enable raycast blocking again
 
             // Check if the pointer is over a valid drop target
@@ -62,6 +63,16 @@ public class InventoryDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
             {
                 // Ensure the item snaps to the center of the new slot
                 rectTransform.anchoredPosition = Vector2.zero;
+            }
+
+            // Reset the alpha for the target slot (if any)
+            if (targetSlot != null)
+            {
+                var targetHandler = targetSlot.slotObject.transform.Find("DraggableItem").GetComponent<CanvasGroup>();
+                if (targetHandler != null)
+                {
+                    targetHandler.alpha = 1f;
+                }
             }
         }
     }
@@ -90,6 +101,14 @@ public class InventoryDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandl
                 // Set transform properties to ensure correct positioning
                 draggedSlot.SetTransformProperties();
                 targetSlot.SetTransformProperties();
+
+                // Ensure the dragged item is interactable
+                draggedHandler.canvasGroup.blocksRaycasts = true;
+                canvasGroup.blocksRaycasts = true;
+
+                // Reset the alpha for both the original and the target slots
+                draggedHandler.canvasGroup.alpha = 1f;
+                canvasGroup.alpha = 1f;
             }
         }
     }
