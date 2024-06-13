@@ -26,6 +26,19 @@ public class InventoryItemEditor : Editor
         }
         else if (item.itemType == ItemType.Equipment)
         {
+            item.equipmentCategory = (EquipmentCategory)EditorGUILayout.EnumPopup("Equipment Category", item.equipmentCategory);
+
+            if (item.equipmentCategory == EquipmentCategory.Weapon)
+            {
+                item.weaponType = (WeaponType)EditorGUILayout.EnumPopup("Weapon Type", item.weaponType);
+
+                if (item.weaponType == WeaponType.OneHand)
+                {
+                    item.isMainHand = EditorGUILayout.Toggle("Main Hand", item.isMainHand);
+                    item.isOffHand = EditorGUILayout.Toggle("Off Hand", item.isOffHand);
+                }
+            }
+
             EditorGUILayout.LabelField("Stats", EditorStyles.boldLabel);
 
             if (item.stats == null)
